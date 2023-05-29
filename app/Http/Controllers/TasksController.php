@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class TasksController extends Controller
 {
     public function store(Request $request){
         $rules=[
-            'todo' =>'required|unique:tasks',
-            'user_id'=>'required'
+            'todo' =>'required|unique:tasks'
         ];
         $data=request()->all();
         $valid=Validator::make($data,$rules);
@@ -23,12 +23,16 @@ class TasksController extends Controller
             ]);
         }
         $task = new Task();
+
+        $user_id= auth::user()->id;
+
         $currentDate = Carbon::now()->format('j, n, Y');
         $currentTime = Carbon::now()->format('H:i');
         $task->todo = $data['todo'];
         $task->date = $currentDate;
         $task->time = $currentTime;
-        $task->user_id = $data['user_id'];
+        $task->user_id = $user_id;
+//        dd($user_id);
         $task->save();
 
         return response()->json([
@@ -42,12 +46,12 @@ class TasksController extends Controller
             'todo' => 'required|max:255',
             'user_id' => 'required|integer',
         ]);
-    
+
         $task = Task::find($id);
-    
+
         $task->todo = $data['todo'];
         $task->user_id = $data['user_id'];
-        
+
         $task->save();
 
     return response()->json([

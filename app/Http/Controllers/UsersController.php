@@ -14,7 +14,8 @@ class UsersController extends Controller
         $rules=[
             'name' =>'required|max:255',
             'email' =>'required|email|unique:users',
-            'password' =>'required|confirmed'
+            'password' =>'required',
+            'c_password'=>'required|same:password'
         ];
         $data=request()->all();
         $valid=Validator::make($data,$rules);
@@ -23,19 +24,22 @@ class UsersController extends Controller
                 'status'=>'failed',
                 'error'=>$valid->errors()
             ],422);
-        } 
-            
+        }
+
             $user=new User();
             $user->name=$data['name'];
             $user->email=$data['email'];
             $user->password=Hash::make($request->password);
             $user->save();
 
-            return response()->json([
-                          'success' =>true,
-                            'user' => $user
+            $token = $user->createToken('token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'success' =>true,
+            'user' => $user
                         ],200);
-        
+
     }
 
     public function login(Request $request){

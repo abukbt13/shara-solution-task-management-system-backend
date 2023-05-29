@@ -20,10 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['middleware' => ['auth:sanctum']],function (){
+    Route::post('tasks',[TasksController::class,'store']);
+
+});
+
 Route::post('register',[UsersController::class, 'store']);
 Route::post('login',[UsersController::class, 'login']);
 
-Route::post('tasks',[TasksController::class,'store']);
 Route::post('tasks/{id}',[TasksController::class,'update']);
 Route::get('tasks',[TasksController::class,'show']);
 Route::delete('tasks/{id}',[TasksController::class,'destroy']);

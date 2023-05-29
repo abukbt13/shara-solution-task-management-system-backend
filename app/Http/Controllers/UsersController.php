@@ -57,17 +57,23 @@ class UsersController extends Controller
         }
         $email = request('email');
         $password = request('password');
+        $user = User::where('email', $email)->get()->first();
+
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            $token = request()->user()->createToken('api_token_at_'.now()->toDateTimeString());
+            $token = $user->createToken('token')->plainTextToken;
+
             return response([
                 'status'=>'success',
-                'access_token'=>$token->plainTextToken,
+                'token'=>$token,
+//                'access_token'=>$token->plainTextToken,
                 'user'=>request()->user()
             ]);
         }
-        return response([
-            'status'=>'failed',
-            'errors'=>['email'=>['Invalid email or password']]
-        ],422);
+      else{
+          return response([
+              'status'=>'fail',
+              'message'=>'faile login'
+          ]);
+      }
     }
 }

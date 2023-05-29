@@ -36,6 +36,7 @@ class TasksController extends Controller
         $task->save();
 
         return response()->json([
+            'status' =>'success',
            'message' =>'task added successfully',
             'data' => $task
         ]);
@@ -69,9 +70,6 @@ class TasksController extends Controller
     }
     public function show(){
         $task=Task::all();
-        return response()->json([
-           'message' =>"show successfully",
-            'data' => $task
-        ]);
+        return response()->json($task);
     }
 }

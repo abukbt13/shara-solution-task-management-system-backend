@@ -67,6 +67,11 @@ class UsersController extends Controller
                 'token'=>$token,
 //                'access_token'=>$token->plainTextToken,
                 'user'=>request()->user()
+            ]); return response([
+                'status'=>'success',
+                'token'=>$token,
+//                'access_token'=>$token->plainTextToken,
+                'user'=>request()->user()
             ]);
         }
       else{

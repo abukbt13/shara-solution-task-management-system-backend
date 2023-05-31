@@ -26,10 +26,15 @@ Route::get('auth',[UsersController::class,'auth']);
 Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);
+<<<<<<< HEAD
 
     Route::post('addReview',[ReviewsController::class,'store']);
 
+=======
+    Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
+>>>>>>> e7eb3d7756caab9cda69a6f617b29062e776e70c
 });
+Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
 Route::post('register',[UsersController::class, 'store']);
 Route::post('login',[UsersController::class, 'login']);

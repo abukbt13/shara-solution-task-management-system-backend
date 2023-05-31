@@ -34,4 +34,13 @@ class WeekGoalsController extends Controller
             'data'=>$weekgoal
         ]);
     }
+    public function show(){
+        $weekGoals=WeekGoal::all();
+        return response()->json($weekGoals);
+    }
+    public function getRandomWeekGoal(){
+        $weekGoals=WeekGoal::all();
+        $weekGoal=rand(0,count($weekGoals)-1);
+        return response()->json($weekGoals[$weekGoal]);
+    }
 }

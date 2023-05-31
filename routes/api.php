@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\TasksController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\WeekGoalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TasksController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\WeekGoalsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);
 
+    Route::post('addReview',[ReviewsController::class,'store']);
+
 });
 
 Route::post('register',[UsersController::class, 'store']);
@@ -35,3 +38,7 @@ Route::post('tasks/{id}',[TasksController::class,'update']);
 Route::delete('tasks/{id}',[TasksController::class,'destroy']);
 
 Route::post('weekoals',[WeekGoalsController::class,'store']);
+Route::get('showWeekoals',[WeekGoalsController::class,'show']);
+Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
+
+

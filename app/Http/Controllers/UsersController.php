@@ -76,4 +76,21 @@ class UsersController extends Controller
           ]);
       }
     }
+    public function auth()
+    {
+        $user = Auth::user();
+        echo $user;
+        if ($user) {
+
+            return response()->json([
+                'success' => true
+            ]);
+        }
+        else{
+            return response()->json([
+                'fail' => true
+            ],403);
+        }
+
+    }
 }

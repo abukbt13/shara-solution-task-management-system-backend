@@ -68,8 +68,11 @@ class TasksController extends Controller
             'data' => $task
         ]);
     }
-    public function show(){
-        $task=Task::all();
-        return response()->json($task);
+    public function show(Request $request){
+        $user=Auth::user();
+        $user_id=$user->id;
+        $tasks=Task::where('user_id',$user_id)->get();
+
+        return response()->json($tasks);
     }
 }

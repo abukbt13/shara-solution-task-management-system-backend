@@ -25,8 +25,9 @@ Route::get('auth',[UsersController::class,'auth']);
 Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);
-
+    Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
 });
+Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
 Route::post('register',[UsersController::class, 'store']);
 Route::post('login',[UsersController::class, 'login']);

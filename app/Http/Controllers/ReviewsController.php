@@ -12,7 +12,7 @@ class ReviewsController extends Controller
 {
     public function store(Request $request){
         $rules=[
-            'description|unique:reviews'
+            'description|unique:reviews',
         ];
         $data=request()->all();
         $valid=Validator::make($data,$rules);

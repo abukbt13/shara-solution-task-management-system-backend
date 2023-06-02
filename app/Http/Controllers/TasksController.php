@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -90,5 +91,11 @@ class TasksController extends Controller
         ]);
     }
 
+    public function get_reviews(Request $request){
+        $user=auth::user();
+        $user_id=$user->id;
+        $reviews=Review::where('user_id',$user_id)->get();
+        return response()->json($reviews);
+    }
 
 }

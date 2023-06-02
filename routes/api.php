@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('show-tasks',[TasksController::class,'show']);
     Route::post('addReview',[ReviewsController::class,'store']);
 
+    Route::get('get-reviews',[TasksController::class,'get_reviews']);
+
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
 });
 Route::post('update-tasks/{id}',[TasksController::class,'updateone']);

@@ -97,5 +97,18 @@ class TasksController extends Controller
         $reviews=Review::where('user_id',$user_id)->get();
         return response()->json($reviews);
     }
+    public function mark_completed(Request $request, $id){
+
+        $task=Task::find($id);
+
+        $task->status='inactive';
+        $task->update();
+        return response()->json(
+            [
+                'status' =>'Task completed successfully',
+                'data' =>$task
+            ]
+        );
+    }
 
 }

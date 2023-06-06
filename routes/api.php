@@ -29,9 +29,11 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('addReview',[ReviewsController::class,'store']);
 
     Route::get('get-reviews',[TasksController::class,'get_reviews']);
+    Route::get('mark_completed/{id}',[TasksController::class,'mark_completed']);
 
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
 });
+
 Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
 Route::post('register',[UsersController::class, 'store']);

@@ -93,4 +93,20 @@ class UsersController extends Controller
         }
 
     }
+    public function logout()
+    {
+        $user = Auth::user();
+        $tokens = $user->tokens;
+    
+        // Alternatively, delete all the user's tokens
+        $tokens->each(function ($token) {
+            $token->delete();
+        });
+        return response()->json([
+            'success' => 'Logout successfully'
+        ],403);
+
+    }
+    
+
 }

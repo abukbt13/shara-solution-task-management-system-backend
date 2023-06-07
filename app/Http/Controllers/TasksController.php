@@ -23,23 +23,38 @@ class TasksController extends Controller
                 'data' => $valid->errors()
             ]);
         }
-        $task = new Task();
+        $todo_id=$request->todo_id;
 
-        $user_id= auth::user()->id;
+        if($todo_id >=!0 ){
 
-        $currentDate = Carbon::now()->format('j, n, Y');
-        $currentTime = Carbon::now()->format('H:i');
-        $task->todo = $data['todo'];
-        $task->date = $currentDate;
-        $task->time = $currentTime;
-        $task->user_id = $user_id;
-//        dd($user_id);
-        $task->save();
+            $task = new Task();
+
+            $user_id= auth::user()->id;
+
+            $currentDate = Carbon::now()->format('j, n, Y');
+            $currentTime = Carbon::now()->format('H:i');
+            $task->todo = $request->todo;
+            $task->date = $currentDate;
+            $task->time = $currentTime;
+            $task->user_id = $user_id;
+            $task->save();
+
+            return response()->json([
+                'status' =>'success',
+                'message' =>'task added successfully',
+                'data' => $task,
+            ]);
+
+        }
+
+        $task=Task::find($todo_id);
+        $task->todo=$request->todo;
+        $task->update();
 
         return response()->json([
             'status' =>'success',
-           'message' =>'task added successfully',
-            'data' => $task
+            'message' =>'task Updated successfully',
+            'data' => $task,
         ]);
     }
     public function update(Request $request, $id)

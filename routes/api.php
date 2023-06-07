@@ -32,12 +32,15 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('mark_completed/{id}',[TasksController::class,'mark_completed']);
 
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
+
+    Route::get('logout',[UsersController::class, 'logout']);
 });
 
 Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
 Route::post('register',[UsersController::class, 'store']);
 Route::post('login',[UsersController::class, 'login']);
+
 
 Route::post('tasks/{id}',[TasksController::class,'update']);
 Route::delete('tasks/{id}',[TasksController::class,'destroy']);

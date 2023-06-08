@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Models\Activity;
+
 
 class UsersController extends Controller
 {
@@ -39,6 +41,9 @@ class UsersController extends Controller
             'success' =>true,
             'user' => $user
                         ],200);
+            activity()
+            ->causedBy($user) // The user who performed the action
+            ->log('User created', ['user_id' => $user->id]);
 
     }
 
@@ -104,9 +109,10 @@ class UsersController extends Controller
         });
         return response()->json([
             'success' => 'Logout successfully'
-        ],403);
+        ]);
 
     }
+
     
 
 }

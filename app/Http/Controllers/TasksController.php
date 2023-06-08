@@ -21,7 +21,7 @@ class TasksController extends Controller
             return response()->json([
                'message' =>'failed',
                 'data' => $valid->errors()
-            ]);
+            ],404);
         }
         $todo_id=$request->todo_id;
 

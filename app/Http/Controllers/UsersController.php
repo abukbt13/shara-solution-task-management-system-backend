@@ -10,103 +10,107 @@ use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
-    public function store(Request $request){
-        $rules=[
-            'name' =>'required|max:255',
-            'email' =>'required|email|unique:users',
-            'password' =>'required',
-            'c_password'=>'required|same:password'
+    public function store(Request $request)
+    {
+        $rules = [
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'c_password' => 'required|same:password'
         ];
-        $data=request()->all();
-        $valid=Validator::make($data,$rules);
-        if(count($valid->errors())){
+        $data = request()->all();
+        $valid = Validator::make($data, $rules);
+        if (count($valid->errors())){
             return response([
-                'status'=>'failed',
-                'error'=>$valid->errors()
-            ],422);
+                'status' => 'failed',
+                'error' => $valid->errors()
+            ]);
         }
 
-            $user=new User();
-            $user->name=$data['name'];
-            $user->email=$data['email'];
-            $user->password=Hash::make($request->password);
-            $user->save();
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-            $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
             'token' => $token,
-            'success' =>true,
+            'status' => 'success',
             'user' => $user
-                        ],200);
+        ]);
 
     }
 
-    public function login(Request $request){
+
+
+
+
+    public function login(Request $request)
+    {
         $data = request()->all();
         $rules = [
-            'email'=>'required',
-            'password'=>'required'
+            'email' => 'required',
+            'password' => 'required'
         ];
-        $valid = Validator::make($data,$rules);
+        $valid = Validator::make($data, $rules);
         if (count($valid->errors())) {
             return response([
                 'status' => 'failed',
+                'message' => 'Enter correct details',
                 'errors' => $valid->errors()
-            ], 422);
-        }
-        $email = request('email');
-        $password = request('password');
-        $user = User::where('email', $email)->get()->first();
-
-        if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            $token = $user->createToken('token')->plainTextToken;
-
-            return response([
-                'status'=>'success',
-                'token'=>$token,
-//                'access_token'=>$token->plainTextToken,
-                'user'=>request()->user()
-            ]);
-        }
-      else{
-          return response([
-              'status'=>'fail',
-              'message'=>'faile login'
-          ]);
-      }
-    }
-    public function auth()
-    {
-        $user = Auth::user();
-        echo $user;
-        if ($user) {
-
-            return response()->json([
-                'success' => true
             ]);
         }
         else{
-            return response()->json([
-                'fail' => true
-            ],403);
+            $email = request('email');
+            $password = request('password');
+            $user = User::where('email', $email)->get()->first();
+
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $token = $user->createToken('token')->plainTextToken;
+
+                return response([
+                    'status' => 'success',
+                    'token' => $token,
+                    'user' => request()->user()
+                ]);
+            }
+            else{
+                return response([
+                    'status' => 'failed',
+                    'message' => 'Enter correct details',
+                ]);
+            }
         }
 
+
     }
+
+   public function auth(){
+       if (Auth::check()) {
+           return response()->json(['authenticated' => true]);
+       } else {
+           return response()->json(['authenticated' => false]);
+       }
+   }
+
     public function logout()
     {
         $user = Auth::user();
         $tokens = $user->tokens;
-    
+
         // Alternatively, delete all the user's tokens
         $tokens->each(function ($token) {
             $token->delete();
         });
+
+
         return response()->json([
             'success' => 'Logout successfully'
         ],403);
 
     }
-    
+
 
 }

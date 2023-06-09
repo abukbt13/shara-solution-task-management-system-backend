@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
-    Route::get('user-auth',[UsersController::class,'user']);
+    Route::get('user-auth',[UsersController::class,'auth']);
 
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);

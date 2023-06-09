@@ -19,7 +19,7 @@ class TasksController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules);
-        $todoId = $request->todo_id;
+
         if ($validator->fails()) {
             return response()->json([
 
@@ -29,7 +29,11 @@ class TasksController extends Controller
             ], 422);
 
         }
-        if($todoId =0){
+        $todoId=$request->todo_id;
+//        echo $todoId;
+//        die();
+
+        if (is_null($todoId)) {
             $task=new Task();
             $task->todo = $request->input('todo');
             $task->date = now()->format('j, n, Y');

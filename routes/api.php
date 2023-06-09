@@ -34,8 +34,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('getroles','list')->where('name',['admin','superadmin']);
         });
     });
-    Route::get('user-auth',[UsersController::class,'user']);
-
+    Route::get('user-auth',[UsersController::class,'auth']);
+    
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);
     Route::post('addReview',[ReviewsController::class,'store']);

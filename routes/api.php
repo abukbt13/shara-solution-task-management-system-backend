@@ -28,27 +28,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
-
-
-    
-    Route::middleware(['auth', 'user'])->group(function () {
-        Route::controller(RolesController::class)->group(function (){
-        Route::post('addroles',  'store')->where('name', 'superadmin');
-        Route::get('getroles','list')->where('name',['superadmin','admin']);
-
-        Route::controller(TasksController::class)->group(function (){
-            Route::post('tasks',  'store')->where('name', 'admin');
-            Route::get('show-tasks','show')->where('name', ['admin','superadmin']);
-        });   
-    });
-       
-});
-
     Route::get('user-auth',[UsersController::class,'user']);
 
-    // Route::post('tasks',[TasksController::class,'store']);
-    // Route::get('show-tasks',[TasksController::class,'show']);
-
+    Route::post('tasks',[TasksController::class,'store']);
+    Route::get('show-tasks',[TasksController::class,'show']);
     Route::post('addReview',[ReviewsController::class,'store']);
 
     Route::get('get-reviews',[TasksController::class,'get_reviews']);

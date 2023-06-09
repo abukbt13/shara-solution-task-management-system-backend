@@ -8,47 +8,52 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use function PHPUnit\Framework\isNull;
 
 class TasksController extends Controller
 {
-    public function store(Request $request){
-        $rules=[
-            'todo' =>'required|unique:tasks'
+    public function store(Request $request)
+    {
+        $rules = [
+            'todo' => 'required',
         ];
-        $data=request()->all();
-        $valid=Validator::make($data,$rules);
-        if(count($valid->errors())){
+
+        $validator = Validator::make($request->all(), $rules);
+        $todoId = $request->todo_id;
+        if ($validator->fails()) {
             return response()->json([
-               'message' =>'failed',
-                'data' => $valid->errors()
-            ],404);
+
+                'status' => 'failed',
+                'message' => 'Validation failed',
+                'data' => $validator->errors(),
+            ], 422);
+
         }
-        $todo_id=$request->todo_id;
-
-        if($todo_id >=!0 ){
-
-            $task = new Task();
-
-            $user_id= auth::user()->id;
-
-            $currentDate = Carbon::now()->format('j, n, Y');
-            $currentTime = Carbon::now()->format('H:i');
-            $task->todo = $request->todo;
-            $task->date = $currentDate;
-            $task->time = $currentTime;
-            $task->user_id = $user_id;
+        if($todoId =0){
+            $task=new Task();
+            $task->todo = $request->input('todo');
+            $task->date = now()->format('j, n, Y');
+            $task->time = now()->format('H:i');
+            $task->user_id = auth()->user()->id;
             $task->save();
 
             return response()->json([
-                'status' =>'success',
-                'message' =>'task added successfully',
+                'status' => 'success',
+                'message' => 'Task added successfully',
                 'data' => $task,
-            ]);
-
+            ]) ;
+        }else{
+            $task=Task::find($todoId);
+                $task->todo = $request->input('todo');
+                $task->update();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Task Updated  successfully',
+                    'data' => $task,
+                ]);
+            }
         }
 
-      
-    }
     public function update(Request $request, $id)
     {
         $data = $request->validate([

@@ -47,15 +47,7 @@ class TasksController extends Controller
 
         }
 
-        $task=Task::find($todo_id);
-        $task->todo=$request->todo;
-        $task->update();
-
-        return response()->json([
-            'status' =>'success',
-            'message' =>'task Updated successfully',
-            'data' => $task,
-        ]);
+      
     }
     public function update(Request $request, $id)
     {

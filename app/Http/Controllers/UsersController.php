@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Validator;
 
 
 class UsersController extends Controller
@@ -28,10 +29,11 @@ class UsersController extends Controller
                 'error' => $valid->errors()
             ]);
         }
-
+        $role_id = Role::where('name','like','user')->first()->id;
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
+        $user->role_id=$role_id;
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -81,7 +83,6 @@ class UsersController extends Controller
                 ]);
             }
         }
-
 
     }
 

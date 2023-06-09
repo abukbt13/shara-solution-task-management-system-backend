@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Models\Activity;
+
 
 class UsersController extends Controller
 {
@@ -40,11 +42,7 @@ class UsersController extends Controller
             'status' => 'success',
             'user' => $user
         ]);
-
     }
-
-
-
 
 
     public function login(Request $request)
@@ -108,9 +106,8 @@ class UsersController extends Controller
 
         return response()->json([
             'success' => 'Logout successfully'
-        ],403);
+        ]);
 
     }
-
 
 }

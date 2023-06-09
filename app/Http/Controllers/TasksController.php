@@ -22,10 +22,12 @@ class TasksController extends Controller
         $todoId = $request->todo_id;
         if ($validator->fails()) {
             return response()->json([
+
                 'status' => 'failed',
                 'message' => 'Validation failed',
                 'data' => $validator->errors(),
             ], 422);
+
         }
         if($todoId =0){
             $task=new Task();

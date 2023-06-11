@@ -32,6 +32,7 @@ class UsersController extends Controller
         $role_id = Role::where('name','like','user')->first()->id;
         $user = new User();
         $user->name = $data['name'];
+        $user->role= 'user';
         $user->email = $data['email'];
         $user->role_id=$role_id;
         $user->password = Hash::make($request->password);

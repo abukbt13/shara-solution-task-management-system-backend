@@ -12,7 +12,7 @@ class ReviewsController extends Controller
 {
     public function store(Request $request){
         $rules=[
-            'description|unique:reviews',
+            'description|unique',
         ];
         $data=request()->all();
         $valid=Validator::make($data,$rules);
@@ -22,7 +22,6 @@ class ReviewsController extends Controller
                 'message'=>$valid->errors
             ]);
         }
-
         $user_id=Auth::user()->id;
         $review=new Review();
         $currentDate=Carbon::now()->format('j-n-Y');

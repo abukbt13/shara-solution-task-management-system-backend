@@ -51,9 +51,12 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
 
     Route::get('logout',[UsersController::class, 'logout']);
+    Route::post('registeradmin',[UsersController::class, 'registerAdmin']);
 
      Route::post('addroles',[RolesController::class,'store']);
      Route::get('getroles',[RolesController::class,'list']);
+
+    
 });
 
 Route::post('update-tasks/{id}',[TasksController::class,'updateone']);

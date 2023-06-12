@@ -161,5 +161,40 @@ class UsersController extends Controller
         }
 
     }
+    public function registerAdmin(Request $request, $id=null){
+        $rules=[
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'role' => 'required|in:admin,user',
+        ];
+        $data=request()->all();
+        $valid=Validator::make($data,$rules);
+
+        if (count($valid->errors())) {
+            return response([
+                'status' => 'failed',
+                'errors' => $valid->errors()
+            ]);
+        }
+        $role_id=Role::where('name','like',$data['role'])->first()->id;
+        $password=request('email');
+
+        $user= $id===null ?
+        User::create([
+            'name'=>request('name'),
+            'email'=>request('email'),
+            'role'=>request('role'),
+            'password'=>Hash::make($password),
+            'role_id'=>$role_id
+        ])
+        :tap(User::find($id))->update([
+            'name'=>request('name'),
+            'email'=>request('email'), 
+        ]);
+        return response([
+            'status'=>'success',
+            'user'=>$user
+        ]);
+    }
 
 }

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'role'
     ];
     public function tasks(){
         return $this->hasMany(Task::class);

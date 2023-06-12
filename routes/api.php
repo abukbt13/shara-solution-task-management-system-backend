@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
-    Route::middleware(['auth', 'user'])->group(function () {
+  Route::middleware(['auth', 'user'])->group(function () {
         Route::controller(RolesController::class)->group(function (){
 
         Route::post('addroles',  'store')->where('name','superadmin');
@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
         });
     });
+
     Route::get('user-auth',[UsersController::class,'auth']);
 
     Route::get('show-users',[UsersController::class,'show_users']);

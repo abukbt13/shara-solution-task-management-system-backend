@@ -38,4 +38,23 @@ class ReviewsController extends Controller
             'data'=>$review
         ]);
     }
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'description' => 'required|max:255',
+            'user_id' => 'required|integer',
+        ]);
+
+        $review = Review::find($id);
+
+        $review->todo = $data['todo'];
+        $review->user_id = $data['user_id'];
+
+        $review->save();
+
+    return response()->json([
+          'message' =>"updated successfully",
+            'data' => $review
+        ]);
+    }
 }

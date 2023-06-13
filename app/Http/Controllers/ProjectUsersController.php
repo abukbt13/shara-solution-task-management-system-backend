@@ -43,7 +43,16 @@ class ProjectUsersController extends Controller
                 'status' => 'success',
                 'message' => 'User added to the project successfully.',
             ]);
-        
+    }
+    public function unassignedUsers()
+    {
+        $users = User::where('role', 'user')
+            ->whereDoesntHave('projects')
+            ->where('role', false)
+            ->get();
 
+        return response()->json([
+            'users' => $users,
+        ]);
     }
 }

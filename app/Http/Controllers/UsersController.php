@@ -196,5 +196,4 @@ class UsersController extends Controller
             'user'=>$user
         ]);
     }
-
 }

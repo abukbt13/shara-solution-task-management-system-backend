@@ -38,5 +38,4 @@ class ProjectsController extends Controller
                 'data'=>$project
             ]);
     }
-
 }

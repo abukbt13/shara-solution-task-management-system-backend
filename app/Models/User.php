@@ -34,7 +34,7 @@ class User extends Authenticatable
         return $this->hasOne(Role::class);
     }
     public function projects(){
-        return $this->belongsToMany(Projects::class);
+        return $this->belongsToMany(Project::class);
     }
     /**
      * The attributes that should be hidden for serialization.

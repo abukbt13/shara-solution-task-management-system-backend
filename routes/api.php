@@ -7,8 +7,10 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\WeekGoalsController;
 use Illuminate\Routing\MiddlewareNameResolver;
+use App\Http\Controllers\ProjectUsersController;
 
 
 /*
@@ -56,6 +58,12 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
      Route::post('addroles',[RolesController::class,'store']);
      Route::get('getroles',[RolesController::class,'list']);
+
+
+     Route::post('addprojects',[ProjectsController::class,'store']);
+
+     Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
+     Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
 
 
 });

@@ -38,4 +38,11 @@ class ProjectsController extends Controller
                 'data'=>$project
             ]);
     }
+    public function listProjects(){
+        $projects=Project::all();
+        return response([
+            'status'=>'success',
+            'data'=>$projects
+        ]);
+    }
 }

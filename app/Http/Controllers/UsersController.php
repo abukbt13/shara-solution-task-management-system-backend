@@ -112,13 +112,13 @@ class UsersController extends Controller
 
     }
 
-    public function show_users()
+    public function show_admins()
     {
         $role= Auth::user();
         $role= $role->role;
 //        dd(role);
         if($role == 'super_admin'){
-            $users=User::all();
+            $users=User::where('role','=','admin')->get( );
 //            ('role','!=','super_admin')->get();
             return response()->json($users);
         }
@@ -130,6 +130,26 @@ class UsersController extends Controller
         }
 
     }
+    public function show_users()
+    {
+        $role= Auth::user();
+        $role= $role->role;
+//        dd(role);
+        if($role == 'super_admin'){
+            $users=User::where('role','=','user')->get();
+//            ('role','!=','super_admin')->get();
+            return response()->json($users);
+        }
+        else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Not authorised'
+            ]);
+        }
+
+    }
+
+
     public function update_user(Request $request,$id)
     {
 
@@ -189,7 +209,7 @@ class UsersController extends Controller
         ])
         :tap(User::find($id))->update([
             'name'=>request('name'),
-            'email'=>request('email'), 
+            'email'=>request('email'),
         ]);
         return response([
             'status'=>'success',

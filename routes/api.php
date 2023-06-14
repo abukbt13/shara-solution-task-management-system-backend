@@ -28,18 +28,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
-  Route::middleware(['auth', 'user'])->group(function () {
-        Route::controller(RolesController::class)->group(function (){
-
-        Route::post('addroles',  'store')->where('name','superadmin');
-        Route::get('getroles','list')->where('name',['admin','superadmin']);
-
-        });
-    });
+//  Route::middleware(['auth', 'user'])->group(function () {
+//        Route::controller(RolesController::class)->group(function (){
+//
+//        Route::post('addroles',  'store')->where('name','superadmin');
+//        Route::get('getroles','list')->where('name',['admin','superadmin']);
+//
+//        });
+//    });
 
     Route::get('user-auth',[UsersController::class,'auth']);
 
-    Route::get('show-users',[UsersController::class,'show_users']);
+    Route::get('show_admins',[UsersController::class,'show_admins']);
+    Route::get('show_users',[UsersController::class,'show_users']);
     Route::post('users/update-user/{id}',[UsersController::class,'update_user']);
     Route::post('tasks',[TasksController::class,'store']);
     Route::get('show-tasks',[TasksController::class,'show']);
@@ -51,12 +52,12 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
 
     Route::get('logout',[UsersController::class, 'logout']);
-    Route::post('registeradmin',[UsersController::class, 'registerAdmin']);
+    Route::post('create_users',[UsersController::class, 'registerAdmin']);
 
      Route::post('addroles',[RolesController::class,'store']);
      Route::get('getroles',[RolesController::class,'list']);
 
-    
+
 });
 
 Route::post('update-tasks/{id}',[TasksController::class,'updateone']);

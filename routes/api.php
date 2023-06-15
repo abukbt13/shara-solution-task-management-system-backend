@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
      Route::post('addprojects',[ProjectsController::class,'store']);
      Route::get('getprojects',[ProjectsController::class,'listProjects']);
+     Route::get('fetch_overview/{id}',[ProjectsController::class,'fetch_overview']);
 
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);

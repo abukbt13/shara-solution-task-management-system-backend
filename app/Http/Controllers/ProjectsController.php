@@ -14,7 +14,7 @@ class ProjectsController extends Controller
         $rules = [
             'name'=>'required|unique:projects',
             'description'=>'required',
-            
+
         ];
         $data = request()->all();
         $valid = Validator::make($data,$rules);
@@ -44,5 +44,9 @@ class ProjectsController extends Controller
             'status'=>'success',
             'data'=>$projects
         ]);
+    }
+    public function fetch_overview(Request $request, $id){
+        $projects=Project::find($id)->get();
+        return response($projects);
     }
 }

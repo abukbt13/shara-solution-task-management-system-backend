@@ -45,8 +45,8 @@ class ProjectsController extends Controller
             'data'=>$projects
         ]);
     }
-    public function fetch_overview(Request $request, $id){
-        $projects=Project::find($id)->get();
+    public function fetch_overview($id){
+        $projects = Project::findOrFail($id);
         return response($projects);
     }
 }

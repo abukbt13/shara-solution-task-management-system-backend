@@ -60,8 +60,14 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::get('getroles',[RolesController::class,'list']);
 
 
-     Route::post('addprojects',[ProjectsController::class,'store']);
-     Route::get('getprojects',[ProjectsController::class,'listProjects']);
+     Route::post('add_project',[ProjectsController::class,'store']);
+     Route::post('edit_project/{id}',[ProjectsController::class,'edit']);
+     Route::get('list_users_not_in_project/{project_id}',[ProjectsController::class,'list_users_not_in_project']);
+    Route::post('add_user_to_the_current_project',[ProjectsController::class,'add_user_to_the_current_project']);
+    Route::get('fetch_users_to_the_current_project/{id}',[ProjectsController::class,'fetch_users_to_the_current_project']);
+
+
+    Route::get('getprojects',[ProjectsController::class,'listProjects']);
      Route::get('fetch_overview/{id}',[ProjectsController::class,'fetch_overview']);
 
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);

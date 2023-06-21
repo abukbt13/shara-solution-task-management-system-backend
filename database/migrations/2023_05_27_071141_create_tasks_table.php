@@ -15,17 +15,17 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->integer('user_id')->nullable();
             $table->string('todo');
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->string('date');
-            $table->string('time');
+            $table->string('date')->nullable();
+            $table->string('time')->nullable();
             $table->timestamps();
-    
+
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

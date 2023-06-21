@@ -64,7 +64,9 @@ class ProjectsController extends Controller
         ]);
     }
     public function listProjects(){
-        $projects=Project::all();
+        $user_id = Auth::user();
+        $user_id = $user_id->id;
+        $projects=Project::where('user_id',$user_id)->get();
         return response([
             'status'=>'success',
             'data'=>$projects
@@ -84,6 +86,7 @@ class ProjectsController extends Controller
             })
             ->select('users.id', 'users.email', 'users.name', 'project_user.user_id', 'project_user.project_id')
             ->whereNull('project_user.user_id')
+            ->where('role','=','user')
             ->get();
 
         return response($users);

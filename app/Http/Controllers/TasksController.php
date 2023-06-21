@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -85,13 +86,49 @@ class TasksController extends Controller
             'data' => $task
         ]);
     }
-    public function show(Request $request){
-        $user=Auth::user();
-        $user_id=$user->id;
-        $tasks=Task::where('user_id',$user_id)->get();
+    public function show($id){
+
+        $tasks=Task::where('project_id','=',$id)->get();
 
         return response()->json($tasks);
     }
+
+    public function users_to_be_added_to_task(Request $request){
+
+        $users=User::where('role','=','user')->get();
+
+        return response()->json($users);
+    }
+
+    public function create_task(Request $request,$id){
+        $rules = [
+            'task' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+
+                'status' => 'failed',
+                'message' => 'Validation failed',
+                'data' => $validator->errors(),
+            ], 422);
+
+        }
+        $task = new Task();
+
+        $task->project_id=$id;
+        $task->todo=$request->task;
+        $task->user_id=$request->user_id;
+        $task->date=$request->date_line;
+        $task->time=$request->time_line;
+        $task->description=$request->description;
+        $task->save();
+        return response()->json($task);
+    }
+
+
     public function edit(Request $request,$id){
         $task=Task::where('id',$id)->first();
         return response()->json($task);

@@ -51,10 +51,22 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('tasks',[TasksController::class,'store']);
     Route::post('addReview',[ReviewsController::class,'store']);
 
+
+
+//    user Tasks
+    Route::get('show_user_tasks',[TasksController::class,'show_user_tasks']);
+    Route::get('show_user_completed_tasks',[TasksController::class,'show_user_completed_tasks']);
+
+
+
+
+
+
     Route::get('get-reviews',[TasksController::class,'get_reviews']);
     Route::get('mark_completed/{id}',[TasksController::class,'mark_completed']);
 
     Route::get('edit-tasks/{id}',[TasksController::class,'edit']);
+    Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
     Route::get('logout',[UsersController::class, 'logout']);
     Route::post('create_users',[UsersController::class, 'registerAdmin']);
@@ -79,7 +91,6 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
 });
 
-Route::post('update-tasks/{id}',[TasksController::class,'updateone']);
 
 Route::post('register',[UsersController::class, 'store']);
 Route::post('login',[UsersController::class, 'login']);

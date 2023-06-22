@@ -16,6 +16,7 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         $rules = [
+            'task_type' =>'required',
             'todo' => 'required',
         ];
 
@@ -37,6 +38,7 @@ class TasksController extends Controller
         if (is_null($todoId)) {
             $task=new Task();
             $task->todo = $request->input('todo');
+            $task->task_type = $request->input('task_type');
             $task->date = now()->format('j, n, Y');
             $task->time = now()->format('H:i');
             $task->user_id = auth()->user()->id;
@@ -100,6 +102,21 @@ class TasksController extends Controller
         return response()->json($users);
     }
 
+    public function show_user_tasks(){
+        $user_id = Auth::user();
+        $user_id = $user_id->id;
+        $tasks=Task::where('user_id','=',$user_id)->where('status','=','active')->get();
+
+        return response()->json($tasks);
+    }
+    public function show_user_completed_tasks(){
+        $user_id = Auth::user();
+        $user_id = $user_id->id;
+        $tasks=Task::where('user_id','=',$user_id)->where('status','=','inactive')->get();
+
+        return response()->json($tasks);
+    }
+
     public function create_task(Request $request,$id){
         $rules = [
             'task' => 'required',
@@ -121,6 +138,7 @@ class TasksController extends Controller
         $task->project_id=$id;
         $task->todo=$request->task;
         $task->user_id=$request->user_id;
+        $task->task_type=$request->task_type;
         $task->date=$request->date_line;
         $task->time=$request->time_line;
         $task->description=$request->description;
@@ -135,8 +153,7 @@ class TasksController extends Controller
     }
     public function updateone(Request $request, $id) {
         $task = Task::where('id',$id)->get()->first(); // Find the task with the given ID
-        $todo=$request->etodo;
-        $task->todo =$todo;
+        $task->todo =$request->todo;
         $task->save();
         return response()->json([
             'message' =>"updated successfully",
@@ -145,10 +162,9 @@ class TasksController extends Controller
     }
 
     public function get_reviews(Request $request){
-        $user=auth::user();
-        $user_id=$user->id;
-        $reviews=Review::where('user_id',$user_id)->get();
-        return response()->json($reviews);
+
+        $reviews=Review::all();
+        return response($reviews);
     }
     public function mark_completed(Request $request, $id){
 

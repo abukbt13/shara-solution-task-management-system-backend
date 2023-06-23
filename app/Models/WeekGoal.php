@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class WeekGoal extends Model
 {
     use HasFactory;
+    protected $table='week_goals';
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\YearGoalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 //
 //        });
 //    });
+
 
     Route::get('user-auth',[UsersController::class,'auth']);
 
@@ -88,6 +90,14 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
 
+//     weekly goals
+    Route::post('create_goal',[WeekGoalsController::class,'store']);
+    Route::post('create_yearly_goal',[YearGoalsController::class,'store']);
+
+//    save Youtube video
+    Route::post('save_youtube_video',[\App\Http\Controllers\YouTubeController::class,'create']);
+
+
 
 });
 
@@ -102,5 +112,6 @@ Route::delete('tasks/{id}',[TasksController::class,'destroy']);
 Route::post('weekoals',[WeekGoalsController::class,'store']);
 Route::get('showWeekoals',[WeekGoalsController::class,'show']);
 Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
+Route::get('getRandomYearGoal',[WeekGoalsController::class,'getRandomYearGoal']);
 
 

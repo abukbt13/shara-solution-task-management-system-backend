@@ -11,7 +11,7 @@ class YearGoalsController extends Controller
 {
     public function store(Request $request){
         $rules=[
-            'goal'=>'required|unique:week_goals',
+            'goal'=>'required|unique:year_goals',
         ];
         $data=request()->all();
         $valid=Validator::make($data,$rules);

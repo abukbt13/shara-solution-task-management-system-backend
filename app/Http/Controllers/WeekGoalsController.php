@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WeekGoal;
+use App\Models\YearGoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -42,5 +43,10 @@ class WeekGoalsController extends Controller
         $weekGoals=WeekGoal::all();
         $weekGoal=rand(0,count($weekGoals)-1);
         return response()->json($weekGoals[$weekGoal]);
+    }
+    public function getRandomYearGoal(){
+        $yearGoals=YearGoal::all();
+        $yearGoal=rand(0,count($yearGoals)-1);
+        return response()->json($yearGoals[$yearGoal]);
     }
 }

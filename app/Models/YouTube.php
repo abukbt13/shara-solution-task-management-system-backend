@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class YearGoal extends Model
+class YouTube extends Model
 {
     use HasFactory;
-    protected $table='year_goals';
 }

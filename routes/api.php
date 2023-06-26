@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
 //    save Youtube video
     Route::post('save_youtube_video',[\App\Http\Controllers\YouTubeController::class,'create']);
+    Route::get('show_youtube_video',[\App\Http\Controllers\YouTubeController::class,'show']);
 
 
 

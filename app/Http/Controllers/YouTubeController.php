@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\YouTube;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class YouTubeController extends Controller
@@ -39,11 +40,14 @@ class YouTubeController extends Controller
             ]);
         }
         $youtube=new YouTube();
+        $user_id = auth::user();
+        $user_id =$user_id->id;
         $currentDate = Carbon::now()->format('j, n, Y');
         $currentTime = Carbon::now()->format('H:i');
         $youtube->date=$currentDate;
         $youtube->time=$currentTime;
         $youtube->link=$data['link'];
+        $youtube->user_id=$user_id;
         $youtube->name=$data['name'];
         $youtube->save();
 
@@ -72,7 +76,8 @@ class YouTubeController extends Controller
      */
     public function show(YouTube $youTube)
     {
-        //
+        $youTube=YouTube::all();
+        return response($youTube);
     }
 
     /**

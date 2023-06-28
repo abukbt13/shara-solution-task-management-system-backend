@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\YearGoalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,11 +93,16 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);
-    Route::post('create_yearly_goal',[YearGoalsController::class,'store']);
+    Route::post('create_yearly_goal',[YearGoalsController::class,'store_yeargoal']);
 
 //    save Youtube video
     Route::post('save_youtube_video',[\App\Http\Controllers\YouTubeController::class,'create']);
     Route::get('show_youtube_video',[\App\Http\Controllers\YouTubeController::class,'show']);
+
+    /*
+     * Upload document
+     */
+    Route::post('upload_local_document',[DocumentsController::class,'create']);
 
 
 

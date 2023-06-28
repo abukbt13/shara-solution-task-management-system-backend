@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class YearGoalsController extends Controller
 {
-    public function store(Request $request){
+    public function store_yeargoal(Request $request){
         $rules=[
             'goal'=>'required|unique:year_goals',
         ];

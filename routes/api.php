@@ -100,10 +100,15 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('show_youtube_video',[\App\Http\Controllers\YouTubeController::class,'show']);
 
     /*
-     * Upload document
+     * Upload local document
      */
     Route::post('upload_local_document',[DocumentsController::class,'create_local']);
+    Route::get('show_local_documents',[DocumentsController::class,'show_local_documents']);
+    /*
+     * upload google documents
+     */
     Route::post('upload_google_document',[DocumentsController::class,'create_google']);
+    Route::get('show_google_documents',[DocumentsController::class,'show_google_documents']);
 
 
 

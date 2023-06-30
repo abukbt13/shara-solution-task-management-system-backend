@@ -114,9 +114,19 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show_google_documents(Request $request)
     {
-        //
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $google=GoogleDocument::where('user_id','=',$user_id)->get();
+        return response($google);
+    }
+    public function show_local_documents(Request $request)
+    {
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $google=LocalDocument::where('user_id','=',$user_id)->get();
+        return response($google);
     }
 
     /**

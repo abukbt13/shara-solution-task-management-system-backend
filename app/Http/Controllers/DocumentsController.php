@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GoogleDocument;
 use App\Models\LocalDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class DocumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create_local(Request $request)
     {
         $rules=[
             'name'=>'required',
@@ -34,7 +35,7 @@ class DocumentsController extends Controller
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
-            return response()->json([
+            return response([
                 'status' => 'failed',
                 'message' => $validator->errors(),
             ]);
@@ -42,12 +43,8 @@ class DocumentsController extends Controller
         else{
 
 
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
-
-                // Save the file to storage
-                $path = $file->store('uploads', 'public');
-
+            $path = $request->file('filename')->store('public/Documents');
+            $filename = basename($path);
 
             $user_id=auth::user();
             $user_id=$user_id->id;
@@ -55,19 +52,50 @@ class DocumentsController extends Controller
             $document->doc_name=$request->name;
             $document->user_id=$user_id;
             $document->description=$request->description;
-            $document->filename=$request->$filename;
+            $document->filename=$filename;
             $document->save();
         }
 
 
 
-        return response()->json([
+        return response([
+            'status' => 'success',
+            'message' =>'successfull save the data',
+        ]);
+        }
+    public function create_google(Request $request)
+    {
+        $rules=[
+            'google_name'=>'required',
+            'google_link'=>'required',
+        ];
+        $data=request()->all();
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            return response([
+                'status' => 'failed',
+                'message' => $validator->errors(),
+            ]);
+        }
+
+
+
+            $user_id=auth::user();
+            $user_id=$user_id->id;
+            $document = new GoogleDocument();
+            $document->doc_name=$request->google_name;
+            $document->user_id=$user_id;
+            $document->description=$request->description;
+            $document->doc_link=$request->google_link;
+            $document->save();
+
+        return response([
             'status' => 'success',
             'message' =>'successfull save the data',
         ]);
         }
 
-    }
 
     /**
      * Store a newly created resource in storage.

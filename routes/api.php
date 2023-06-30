@@ -102,7 +102,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     /*
      * Upload document
      */
-    Route::post('upload_local_document',[DocumentsController::class,'create']);
+    Route::post('upload_local_document',[DocumentsController::class,'create_local']);
+    Route::post('upload_google_document',[DocumentsController::class,'create_google']);
 
 
 
@@ -120,5 +121,6 @@ Route::post('weekoals',[WeekGoalsController::class,'store']);
 Route::get('showWeekoals',[WeekGoalsController::class,'show']);
 Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
 Route::get('getRandomYearGoal',[WeekGoalsController::class,'getRandomYearGoal']);
+Route::post('company',[WeekGoalsController::class,'storeCompany']);
 
 

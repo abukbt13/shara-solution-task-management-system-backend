@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectUsersController extends Controller
@@ -55,4 +56,17 @@ class ProjectUsersController extends Controller
             'users' => $users,
         ]);
     }
+    public function fetchUserProjects()
+{
+    $user = Auth::user();
+
+    $projects =
+     User::join('project_user', 'users.id', '=', 'project_user.user_id')
+        ->join('projects', 'project_user.project_id', '=', 'projects.id')
+        ->where('users.id', $user->id)
+        ->select('projects.name', 'projects.id', 'projects.description')
+        ->get();
+
+    return $projects;
+}
 }

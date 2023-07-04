@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
+     Route::get('fetchUserProjects',[ProjectUsersController::class,'fetchUserProjects']);
 
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);

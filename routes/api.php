@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('show_google_documents',[DocumentsController::class,'show_google_documents']);
 
 
+    Route::get('trashed_tasks',[TasksController::class,'trashed_tasks']);
 
 });
 

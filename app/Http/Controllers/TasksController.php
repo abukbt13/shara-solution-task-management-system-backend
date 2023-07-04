@@ -83,11 +83,18 @@ class TasksController extends Controller
     public function destroy(Request $request, $id){
         $task = Task::find($id);
         $task->stage='trashed';
+        $task->status='inactive';
         $task->update();
         return response()->json([
            'message' =>"deleted successfully",
             'data' => $task
         ]);
+    }
+    public function trashed_tasks(){
+        $user_id=auth::user();
+        $user_id=$user_id->id;
+        $task = Task::where('status','=','inactive')->where('stage','=','trashed')->where('user_id','=',$user_id)->get();
+        return response()->json($task);
     }
     public function show($id){
 
@@ -113,7 +120,7 @@ class TasksController extends Controller
     public function show_user_completed_tasks(){
         $user_id = Auth::user();
         $user_id = $user_id->id;
-        $tasks=Task::where('user_id','=',$user_id)->where('status','=','inactive')->get();
+        $tasks=Task::where('user_id','=',$user_id)->where('status','=','inactive')->where('stage','=','active')->get();
 
         return response()->json($tasks);
     }

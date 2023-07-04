@@ -120,7 +120,7 @@ Route::post('login',[UsersController::class, 'login']);
 
 
 Route::post('tasks/{id}',[TasksController::class,'update']);
-Route::delete('tasks/{id}',[TasksController::class,'destroy']);
+Route::get('delete_tasks/{id}',[TasksController::class,'destroy']);
 
 Route::post('weekoals',[WeekGoalsController::class,'store']);
 Route::get('showWeekoals',[WeekGoalsController::class,'show']);

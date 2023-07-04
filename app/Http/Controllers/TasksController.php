@@ -82,7 +82,8 @@ class TasksController extends Controller
     }
     public function destroy(Request $request, $id){
         $task = Task::find($id);
-        $task->delete();
+        $task->stage='trashed';
+        $task->update();
         return response()->json([
            'message' =>"deleted successfully",
             'data' => $task

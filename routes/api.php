@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DocumentsController;
+use App\Http\Controllers\UserProjects;
 use App\Http\Controllers\YearGoalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -116,6 +117,14 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
 
     Route::get('trashed_tasks',[TasksController::class,'trashed_tasks']);
+
+    /*
+     * Projects for users
+     */
+    Route::get('projects/active_tasks/{id}',[UserProjects::class,'active_tasks']);
+    Route::get('projects/pendind_tasks',[UserProjects::class,'pendind_tasks']);
+    Route::get('projects/completed_tasks',[UserProjects::class,'completed_tasks']);
+    Route::get('projects/revision_tasks',[UserProjects::class,'revision_tasks']);
 
 });
 

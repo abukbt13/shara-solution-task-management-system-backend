@@ -68,14 +68,9 @@ class ProjectUsersController extends Controller
         ->select('projects.name', 'projects.id', 'projects.description')
         ->get();
 
-//     User::join('project_user', 'users.id', '=', 'project_user.user_id')
-//        ->join('projects', 'project_user.project_id', '=', 'projects.id')
-//        ->where('users.id', $user->id)
-//        ->select('projects.name', 'projects.id', 'projects.description')
-//        ->get();
-
-    return $projects;
+    return response($projects);
 }
+
 public function mark_pending($id)
 {
     $record = ProjectUser::findOrFail($id);

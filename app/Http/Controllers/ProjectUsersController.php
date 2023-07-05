@@ -65,7 +65,7 @@ class ProjectUsersController extends Controller
     $projects = User::join('project_user', 'users.id', '=', 'project_user.user_id')
         ->join('projects', 'project_user.project_id', '=', 'projects.id')
         ->where('users.id', $user->id)
-        ->select('projects.name', 'projects.id', 'projects.description')
+        ->select('project_user.*', 'projects.*')
         ->get();
 
     return response($projects);
@@ -77,10 +77,10 @@ public function mark_pending($id)
         if ($record->stage === 'active') {
         $record->stage = 'pending';
         $record->save();
-        
+
         return response(['message' => 'Stage updated successfully']);
     }
-    
+
     return response(['message' => 'Cannot update stage. Current stage is not active.']);
 }
 public function mark_complete($id)
@@ -90,10 +90,10 @@ public function mark_complete($id)
         if ($record->stage === 'pending') {
         $record->stage = 'complete';
         $record->save();
-        
+
         return response(['message' => 'Stage updated successfully']);
     }
-    
+
     return response(['message' => 'Cannot update stage. Current stage is not active.']);
 }
 }

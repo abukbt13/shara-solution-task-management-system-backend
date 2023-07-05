@@ -103,7 +103,7 @@ class TasksController extends Controller
         return response()->json($tasks);
     }
 
-    public function users_to_be_added_to_task(Request $request){
+    public function users_to_be_added_to_task(Request $request,$id){
 
         $users=User::where('role','=','user')->get();
 

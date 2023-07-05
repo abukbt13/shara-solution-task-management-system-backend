@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Project;
+use App\Models\ProjectUser;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -60,13 +62,37 @@ class ProjectUsersController extends Controller
 {
     $user = Auth::user();
 
-    $projects =
-     User::join('project_user', 'users.id', '=', 'project_user.user_id')
+    $projects = User::join('project_user', 'users.id', '=', 'project_user.user_id')
         ->join('projects', 'project_user.project_id', '=', 'projects.id')
         ->where('users.id', $user->id)
         ->select('projects.name', 'projects.id', 'projects.description')
         ->get();
 
     return $projects;
+}
+public function mark_pending($id)
+{
+    $record = ProjectUser::findOrFail($id);
+        if ($record->stage === 'active') {
+        $record->stage = 'pending';
+        $record->save();
+        
+        return response(['message' => 'Stage updated successfully']);
+    }
+    
+    return response(['message' => 'Cannot update stage. Current stage is not active.']);
+}
+public function mark_complete($id)
+{
+    $record = Task::findOrFail($id);
+    dd($record);
+        if ($record->stage === 'pending') {
+        $record->stage = 'complete';
+        $record->save();
+        
+        return response(['message' => 'Stage updated successfully']);
+    }
+    
+    return response(['message' => 'Cannot update stage. Current stage is not active.']);
 }
 }

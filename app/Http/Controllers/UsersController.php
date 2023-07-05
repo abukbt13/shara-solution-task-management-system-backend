@@ -18,6 +18,9 @@ class UsersController extends Controller
         $rules = [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
+            'photo'=>'required',
+            'phone'=>'required|unique:users',
+            'address'=>'required',
             'password' => 'required',
             'c_password' => 'required|same:password'
         ];
@@ -29,10 +32,22 @@ class UsersController extends Controller
                 'error' => $valid->errors()
             ]);
         }
+        $photo=request()->file('photo');
+        if($request->hasFile('photo')){
+            $photo_name= md5(rand(10,15));
+            $ext=strtolower($photo->getClientOriginalExtension());
+            $photo_full_name=$photo_name.'.'.$ext;
+            $upload_path='public/images/';
+            $photo_url=$upload_path.$photo_full_name;
+            $photo->move($upload_path,$photo_full_name);
+        }
         $role_id = Role::where('name','like','user')->first()->id;
         $user = new User();
         $user->name = $data['name'];
         $user->role= 'user';
+        $user->phone=$data['phone'];
+        $user->address=$data['address'];
+        $user->photo=$photo_url;
         $user->email = $data['email'];
         $user->role_id=$role_id;
         $user->password = Hash::make($request->password);
@@ -240,5 +255,22 @@ class UsersController extends Controller
             'status'=>'success',
             'user'=>$user
         ]);
+    }
+    public function profile(){
+        $user=Auth::user();
+        if($user){
+            $name=$user->name;
+            $email=$user->email;
+            $photo=$user->photo;
+            $phone=$user->phone;
+            $address=$user->address;
+        }
+        return response()->json([
+        'name' => $name,
+        'email' => $email,
+        'photo' => $photo,
+        'phone' => $phone,
+        'address' => $address,
+    ], 200);
     }
 }

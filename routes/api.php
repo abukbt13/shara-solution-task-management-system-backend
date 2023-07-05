@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
     Route::get('logout',[UsersController::class, 'logout']);
     Route::post('create_users',[UsersController::class, 'registerAdmin']);
+    Route::get('getProfile',[UsersController::class, 'profile']);
 
      Route::post('addroles',[RolesController::class,'store']);
      Route::get('getroles',[RolesController::class,'list']);
@@ -91,6 +92,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
      Route::get('fetchUserProjects',[ProjectUsersController::class,'fetchUserProjects']);
+     Route::post('markComplete/{id}',[ProjectUsersController::class,'mark_complete']);
+     Route::post('markPending/{id}',[ProjectUsersController::class,'mark_pending']);
 
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);

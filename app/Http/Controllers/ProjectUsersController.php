@@ -66,12 +66,7 @@ class ProjectUsersController extends Controller
         ->where('project_user.user_id','=',$user_id)
         ->get();
 
-//     User::join('project_user', 'users.id', '=', 'project_user.user_id')
-//        ->join('projects', 'project_user.project_id', '=', 'projects.id')
-//        ->where('users.id', $user->id)
-//        ->select('projects.name', 'projects.id', 'projects.description')
-//        ->get();
-
-    return $projects;
+    return response($projects);
 }
+
 }

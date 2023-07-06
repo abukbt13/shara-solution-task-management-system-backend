@@ -93,9 +93,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
      Route::get('fetchUserProjects',[ProjectUsersController::class,'fetchUserProjects']);
-     Route::post('markComplete/{id}',[ProjectUsersController::class,'mark_complete']);
-     Route::post('markPending/{id}',[ProjectUsersController::class,'mark_pending']);
-
+     Route::get('usersNotAssignedTask/{project_id}',[ProjectUsersController::class,'usersNotAssignedTask']);
+    
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);
     Route::post('create_yearly_goal',[YearGoalsController::class,'store_yeargoal']);
@@ -125,6 +124,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('projects/pendind_tasks',[UserProjects::class,'pendind_tasks']);
     Route::get('projects/completed_tasks',[UserProjects::class,'completed_tasks']);
     Route::get('projects/revision_tasks',[UserProjects::class,'revision_tasks']);
+    Route::post('projects/mark_complete/{id}',[UserProjects::class,'mark_complete']);
 
 });
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectUser;
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Task;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -70,30 +71,11 @@ class ProjectUsersController extends Controller
 
     return response($projects);
 }
+public function usersNotAssignedTask($id){
+    $project_user_id = ProjectUser::where('project_id',$id)->pluck('user_id');
+    $users = User::whereIn('id',$project_user_id)->get();
+    return response($users);
 
-public function mark_pending($id)
-{
-    $record = ProjectUser::findOrFail($id);
-        if ($record->stage === 'active') {
-        $record->stage = 'pending';
-        $record->save();
-        
-        return response(['message' => 'Stage updated successfully']);
     }
-    
-    return response(['message' => 'Cannot update stage. Current stage is not active.']);
-}
-public function mark_complete($id)
-{
-    $record = Task::findOrFail($id);
-    dd($record);
-        if ($record->stage === 'pending') {
-        $record->stage = 'complete';
-        $record->save();
-        
-        return response(['message' => 'Stage updated successfully']);
-    }
-    
-    return response(['message' => 'Cannot update stage. Current stage is not active.']);
-}
+
 }

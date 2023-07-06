@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('users/update-user/{id}',[UsersController::class,'update_user']);
 
     Route::get('show-tasks/{id}',[TasksController::class,'show']);
-    Route::get('users_to_be_added_to_task',[TasksController::class,'users_to_be_added_to_task']);
+    Route::get('users_to_be_added_to_task/{id}',[TasksController::class,'users_to_be_added_to_task']);
     Route::post('create_task/{id}',[TasksController::class,'create_task']);
     Route::post('tasks',[TasksController::class,'store']);
     Route::post('addReview',[ReviewsController::class,'store']);
@@ -93,8 +93,12 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::post('assignuserproject', [ProjectUsersController::class, 'addUserToProject']);
      Route::get('unassignedUsers',[ProjectUsersController::class,'unassignedUsers']);
      Route::get('fetchUserProjects',[ProjectUsersController::class,'fetchUserProjects']);
+<<<<<<< HEAD
      Route::get('usersNotAssignedTask/{project_id}',[ProjectUsersController::class,'usersNotAssignedTask']);
     
+=======
+
+>>>>>>> 06feae43e831c62fb92faa1b23600f7f0b7c52e5
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);
     Route::post('create_yearly_goal',[YearGoalsController::class,'store_yeargoal']);

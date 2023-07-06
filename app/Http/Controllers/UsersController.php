@@ -18,9 +18,6 @@ class UsersController extends Controller
         $rules = [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
-            'photo'=>'required',
-            'phone'=>'required|unique:users',
-            'address'=>'required',
             'password' => 'required',
             'c_password' => 'required|same:password'
         ];
@@ -45,9 +42,6 @@ class UsersController extends Controller
         $user = new User();
         $user->name = $data['name'];
         $user->role= 'user';
-        $user->phone=$data['phone'];
-        $user->address=$data['address'];
-        $user->photo=$photo_url;
         $user->email = $data['email'];
         $user->role_id=$role_id;
         $user->password = Hash::make($request->password);

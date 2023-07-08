@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
     Route::get('show_admins',[UsersController::class,'show_admins']);
     Route::get('show_users',[UsersController::class,'show_users']);
+    Route::post('updateUserDetails/{id}',[UsersController::class,'updateUserDetails']);
+    Route::get('deleteUser/{id}',[UsersController::class,'destroy']);
     Route::post('users/update-user/{id}',[UsersController::class,'update_user']);
 
     Route::get('show-tasks/{id}',[TasksController::class,'show']);

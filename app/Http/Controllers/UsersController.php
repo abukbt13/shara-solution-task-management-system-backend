@@ -152,7 +152,12 @@ class UsersController extends Controller
         $role= $role->role;
 //        dd(role);
         if($role == 'super_admin'){
-            $users=User::where('role','=','admin')->get( );
+            // $users=User::where('role','=','admin')->get( );
+            $users = User::where([
+                ['role', '=', 'admin'],
+                ['status', '=', 'activate']
+            ])->get();
+            
 //            ('role','!=','super_admin')->get();
             return response()->json($users);
         }
@@ -266,5 +271,28 @@ class UsersController extends Controller
         'phone' => $phone,
         'address' => $address,
     ], 200);
+    }
+    public function updateUserDetails(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+    
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->update();
+    
+        return response()->json([
+            'message' => 'Updated successfully',
+            'data' => $user
+        ]);
+    }
+    public function destroy(Request $request,$id){
+        $user=User::find($id);
+        $user->status='deactivate';
+        $user->update();
+        return response()->json([
+           'message' =>"deleted successfully",
+            'data' => $user
+        ]);
     }
 }

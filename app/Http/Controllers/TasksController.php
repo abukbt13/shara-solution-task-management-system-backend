@@ -17,7 +17,7 @@ class TasksController extends Controller
     {
         $rules = [
             'task_type' =>'required',
-            'todo' => 'required',
+            'name' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -37,7 +37,8 @@ class TasksController extends Controller
 
         if (is_null($todoId)) {
             $task=new Task();
-            $task->todo = $request->input('todo');
+            $task->todo = $request->input('name');
+            $task->description = $request->input('description');
             $task->task_type = $request->input('task_type');
             $task->date = now()->format('j, n, Y');
             $task->time = now()->format('H:i');
@@ -161,7 +162,8 @@ class TasksController extends Controller
     }
     public function updateone(Request $request, $id) {
         $task = Task::where('id',$id)->get()->first(); // Find the task with the given ID
-        $task->todo =$request->todo;
+        $task->todo =$request->name;
+        $task->description =$request->description;
         $task->save();
         return response()->json([
             'message' =>"updated successfully",

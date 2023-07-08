@@ -94,7 +94,7 @@ public function usersNotAssignedTask($id){
 public function mark_complete($id)
 {
     $record = Task::findOrFail($id);
-    dd($record);
+//    dd($record);
         if ($record->stage === 'pending') {
         $record->stage = 'complete';
         $record->save();

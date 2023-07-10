@@ -259,6 +259,7 @@ class UsersController extends Controller
         $user=Auth::user();
         if($user){
             $name=$user->name;
+            $user_id=$user->id;
             $email=$user->email;
             $photo=$user->photo;
             $phone=$user->phone;
@@ -270,6 +271,8 @@ class UsersController extends Controller
         'photo' => $photo,
         'phone' => $phone,
         'address' => $address,
+        'user_id' => $user_id,
+        'photo'=>$photo
     ], 200);
     }
     public function updateUserDetails(Request $request, $id)
@@ -279,6 +282,22 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $photo = request()->file('photo');
+        $photo = request()->file('photo');
+        if ($request->hasFile('photo')) {
+            $photo_name = md5(rand(10, 15));
+            $ext = strtolower($photo->getClientOriginalExtension());
+            $photo_full_name = $photo_name . '.' . $ext;
+            $photo_full_name = addslashes($photo_full_name); // Escape forward slashes
+            $upload_path = 'public/images/';
+            $photo_url = $upload_path . $photo_full_name;
+            $photo->move($upload_path, $photo_full_name);
+        
+            // Use the uploaded photo path
+            $user->photo = $photo_url;
+        }
+        
+        
         $user->update();
     
         return response()->json([

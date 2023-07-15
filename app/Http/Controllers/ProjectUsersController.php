@@ -65,7 +65,7 @@ class ProjectUsersController extends Controller
     $user_id=$user->id;
     $projects = User::join('project_user', 'users.id', '=', 'project_user.user_id')
         ->join('projects', 'project_user.project_id', '=', 'projects.id')
-        ->where('users.id', $user->id)
+        ->where('users.id', $user_id)
         ->select('project_user.*', 'projects.*')
         ->get();
 
@@ -79,18 +79,6 @@ public function usersNotAssignedTask($id){
 
     }
 
-// public function mark_pending($id)
-// {
-//     $record = ProjectUser::findOrFail($id);
-//         if ($record->stage === 'active') {
-//         $record->stage = 'pending';
-//         $record->save();
-
-//         return response(['message' => 'Stage updated successfully']);
-//     }
-
-//     return response(['message' => 'Cannot update stage. Current stage is not active.']);
-// }
 public function mark_complete($id)
 {
     $record = Task::findOrFail($id);

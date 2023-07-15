@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminStageProject;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\UserProjects;
 use App\Http\Controllers\YearGoalsController;
@@ -33,15 +34,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
-//  Route::middleware(['auth', 'user'])->group(function () {
-//        Route::controller(RolesController::class)->group(function (){
-//
-//        Route::post('addroles',  'store')->where('name','superadmin');
-//        Route::get('getroles','list')->where('name',['admin','superadmin']);
-//
-//        });
-//    });
-
 
     Route::get('user-auth',[UsersController::class,'auth']);
 
@@ -62,10 +54,6 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 //    user Tasks
     Route::get('show_user_tasks',[TasksController::class,'show_user_tasks']);
     Route::get('show_user_completed_tasks',[TasksController::class,'show_user_completed_tasks']);
-
-
-
-
 
 
     Route::get('get-reviews',[TasksController::class,'get_reviews']);
@@ -97,7 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::get('fetchUserProjects',[ProjectUsersController::class,'fetchUserProjects']);
 
      Route::get('usersNotAssignedTask/{project_id}',[ProjectUsersController::class,'usersNotAssignedTask']);
-    
+
 
 //     weekly goals
     Route::post('create_goal',[WeekGoalsController::class,'store']);
@@ -122,13 +110,22 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('trashed_tasks',[TasksController::class,'trashed_tasks']);
 
     /*
-     * Projects for users
+     * Projects for users function
      */
     Route::get('projects/active_tasks/{id}',[UserProjects::class,'active_tasks']);
     Route::get('projects/pendind_tasks',[UserProjects::class,'pendind_tasks']);
     Route::get('projects/completed_tasks',[UserProjects::class,'completed_tasks']);
     Route::get('projects/revision_tasks',[UserProjects::class,'revision_tasks']);
-    Route::post('projects/mark_complete/{id}',[UserProjects::class,'mark_complete']);
+    Route::get('projects/mark_complete/{id}',[UserProjects::class,'mark_complete']);
+
+    /*
+     * Projects for admin function
+     */
+    Route::get('admin/projects/active_tasks',[AdminStageProject::class,'active_tasks']);
+    Route::get('admin/projects/pending_tasks',[AdminStageProject::class,'pending_tasks']);
+    Route::get('admin/projects/completed_tasks',[AdminStageProject::class,'completed_tasks']);
+    Route::get('admin/projects/revision_tasks',[AdminStageProject::class,'revision_tasks']);
+    Route::post('admin/projects/mark_complete/{id}',[AdminStageProject::class,'mark_complete']);
 
 });
 

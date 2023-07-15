@@ -29,18 +29,11 @@ class UserProjects extends Controller
 
     public function mark_complete($id)
     {
-        $user_id = Auth::user()->id;
-        $record = Task::findOrFail($id);
-        
-        if ($record && $user_id) {
-            if (in_array($record->stage, ['active', 'pending', 'revision'])) {
-                $record->stage = 'pending';
-                $record->save();
-                
-                return response(['message' => 'Stage updated successfully']);
-            }
-        }
-          
-        return response(['message' => 'Cannot update stage. Current stage is not active, pending, or revision.']);
+        $user_id = auth::user();
+        $task = Task::find($id);
+        $task->stage = 'pending';
+        $task->update();
+        return($task);
+
     }
 }

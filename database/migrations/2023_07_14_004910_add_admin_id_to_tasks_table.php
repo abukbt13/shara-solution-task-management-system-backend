@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStageColumnToTasksTable extends Migration
+class AddAdminIdToTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddStageColumnToTasksTable extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->enum('stage', ['active', 'pending', 'revision','trashed'])->default('active')->after('task_type');
-
+            $table->string('admin_id')->nullable()->after('project_id');
         });
     }
 
@@ -27,7 +26,7 @@ class AddStageColumnToTasksTable extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('stage');
+            $table->dropColumn('admin_id');
         });
     }
 }

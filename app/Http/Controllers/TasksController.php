@@ -114,7 +114,9 @@ class TasksController extends Controller
     public function show_user_tasks(){
         $user_id = Auth::user();
         $user_id = $user_id->id;
-        $tasks=Task::where('user_id','=',$user_id)->where('status','=','active')->get();
+        $tasks=Task::where('user_id','=',$user_id)
+            ->where('status','=','active')
+            ->where('task_type','=','My Task')->get();
 
         return response()->json($tasks);
     }
@@ -142,6 +144,7 @@ class TasksController extends Controller
             ], 422);
 
         }
+        $admin_id = auth::user()->id;
         $task = new Task();
 
         $task->project_id=$id;
@@ -151,6 +154,8 @@ class TasksController extends Controller
         $task->date=$request->date_line;
         $task->time=$request->time_line;
         $task->description=$request->description;
+
+        $task->admin_id=$admin_id;
         $task->save();
         return response()->json($task);
     }

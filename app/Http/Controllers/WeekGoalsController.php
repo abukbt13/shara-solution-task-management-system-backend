@@ -8,6 +8,7 @@ use App\Models\YearGoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class WeekGoalsController extends Controller
@@ -57,13 +58,11 @@ class WeekGoalsController extends Controller
         return response()->json($weekGoals);
     }
     public function getRandomWeekGoal(){
-        $weekGoals=WeekGoal::all();
-        $weekGoal=rand(0,count($weekGoals)-1);
-        return response()->json($weekGoals[$weekGoal]);
+        $weekGoals=DB::table('week_goals')->inRandomOrder()->limit(1)->get();
+        return response($weekGoals);
     }
     public function getRandomYearGoal(){
-        $yearGoals=YearGoal::all();
-        $yearGoal=rand(0,count($yearGoals)-1);
-        return response()->json($yearGoals[$yearGoal]);
+        $yearGoals=DB::table('year_goals')->inRandomOrder()->limit(1)->get();
+        return response($yearGoals);
     }
 }

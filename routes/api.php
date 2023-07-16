@@ -124,8 +124,9 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('admin/projects/active_tasks',[AdminStageProject::class,'active_tasks']);
     Route::get('admin/projects/pending_tasks',[AdminStageProject::class,'pending_tasks']);
     Route::get('admin/projects/completed_tasks',[AdminStageProject::class,'completed_tasks']);
+    Route::get('admin/projects/mark_task_revision/{id}',[AdminStageProject::class,'mark_task_revision']);
     Route::get('admin/projects/revision_tasks',[AdminStageProject::class,'revision_tasks']);
-    Route::post('admin/projects/mark_complete/{id}',[AdminStageProject::class,'mark_complete']);
+    Route::get('admin/projects/mark_task_complete/{id}',[AdminStageProject::class,'mark_task_complete']);
 
 });
 

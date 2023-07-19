@@ -53,9 +53,13 @@ class WeekGoalsController extends Controller
             'data'=>$weekgoal
         ]);
     }
-    public function show(){
+    public function all_weeks_goals(){
         $weekGoals=WeekGoal::all();
         return response()->json($weekGoals);
+    }
+    public function all_yearly_goals(){
+        $yearGoals=YearGoal::all();
+        return response()->json($yearGoals);
     }
     public function getRandomWeekGoal(){
         $weekGoals=DB::table('week_goals')->inRandomOrder()->limit(1)->get();

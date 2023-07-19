@@ -140,8 +140,14 @@ Route::get('delete_tasks/{id}',[TasksController::class,'destroy']);
 
 Route::post('weekoals',[WeekGoalsController::class,'store']);
 Route::get('showWeekoals',[WeekGoalsController::class,'show']);
+Route::get('all_weeks_goals',[WeekGoalsController::class,'all_weeks_goals']);
+
+
 Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
 Route::get('getRandomYearGoal',[WeekGoalsController::class,'getRandomYearGoal']);
+Route::get('all_yearly_goals',[WeekGoalsController::class,'all_yearly_goals']);
+
+
 Route::post('company',[WeekGoalsController::class,'storeCompany']);
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\YearGoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class YearGoalsController extends Controller
@@ -22,10 +23,13 @@ class YearGoalsController extends Controller
             ]);
         }
         $yeargoal=new YearGoal();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
         $currentDate = Carbon::now()->format('j, n, Y');
         $currentTime = Carbon::now()->format('H:i');
         $yeargoal->goal=$data['goal'];
         $yeargoal->date=$currentDate;
+        $yeargoal->user_id=$user_id;
         $yeargoal->time=$currentTime;
         $yeargoal->save();
 

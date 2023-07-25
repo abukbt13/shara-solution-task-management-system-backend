@@ -128,6 +128,19 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('admin/projects/revision_tasks',[AdminStageProject::class,'revision_tasks']);
     Route::get('admin/projects/mark_task_complete/{id}',[AdminStageProject::class,'mark_task_complete']);
 
+    Route::post('weekoals',[WeekGoalsController::class,'store']);
+    Route::get('showWeekoals',[WeekGoalsController::class,'show']);
+    Route::get('all_weeks_goals',[WeekGoalsController::class,'all_weeks_goals']);
+
+
+    Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
+    Route::get('getRandomYearGoal',[WeekGoalsController::class,'getRandomYearGoal']);
+    Route::get('all_yearly_goals',[WeekGoalsController::class,'all_yearly_goals']);
+
+
+    Route::post('company',[WeekGoalsController::class,'storeCompany']);
+
+
 });
 
 
@@ -137,17 +150,5 @@ Route::post('login',[UsersController::class, 'login']);
 
 Route::post('tasks/{id}',[TasksController::class,'update']);
 Route::get('delete_tasks/{id}',[TasksController::class,'destroy']);
-
-Route::post('weekoals',[WeekGoalsController::class,'store']);
-Route::get('showWeekoals',[WeekGoalsController::class,'show']);
-Route::get('all_weeks_goals',[WeekGoalsController::class,'all_weeks_goals']);
-
-
-Route::get('getRandomWeekGoal',[WeekGoalsController::class,'getRandomWeekGoal']);
-Route::get('getRandomYearGoal',[WeekGoalsController::class,'getRandomYearGoal']);
-Route::get('all_yearly_goals',[WeekGoalsController::class,'all_yearly_goals']);
-
-
-Route::post('company',[WeekGoalsController::class,'storeCompany']);
 
 

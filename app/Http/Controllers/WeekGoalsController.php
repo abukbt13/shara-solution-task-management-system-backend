@@ -41,10 +41,13 @@ class WeekGoalsController extends Controller
             ]);
         }
         $weekgoal=new WeekGoal();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
         $currentDate = Carbon::now()->format('j, n, Y');
         $currentTime = Carbon::now()->format('H:i');
         $weekgoal->date=$currentDate;
         $weekgoal->time=$currentTime;
+        $weekgoal->user_id=$user_id;
         $weekgoal->goal=$data['goal'];
         $weekgoal->save();
 
@@ -54,19 +57,28 @@ class WeekGoalsController extends Controller
         ]);
     }
     public function all_weeks_goals(){
-        $weekGoals=WeekGoal::all();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $weekGoals=WeekGoal::where('user_id',$user_id)->get();
         return response()->json($weekGoals);
     }
     public function all_yearly_goals(){
-        $yearGoals=YearGoal::all();
+
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $yearGoals=YearGoal::where('user_id',$user_id)->get();
         return response()->json($yearGoals);
     }
     public function getRandomWeekGoal(){
-        $weekGoals=DB::table('week_goals')->inRandomOrder()->limit(1)->get();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $weekGoals=DB::table('week_goals')->inRandomOrder()->limit(1)->where('user_id',$user_id)->get();
         return response($weekGoals);
     }
     public function getRandomYearGoal(){
-        $yearGoals=DB::table('year_goals')->inRandomOrder()->limit(1)->get();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $yearGoals=DB::table('year_goals')->inRandomOrder()->limit(1)->where('user_id',$user_id)->get();;
         return response($yearGoals);
     }
 }

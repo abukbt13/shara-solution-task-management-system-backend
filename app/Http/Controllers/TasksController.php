@@ -177,8 +177,9 @@ class TasksController extends Controller
     }
 
     public function get_reviews(Request $request){
-
-        $reviews=Review::all();
+        $user_id=Auth::user();
+        $user_id=$user_id->id;
+        $reviews=Review::where('user_id',$user_id)->get();
         return response($reviews);
     }
     public function mark_completed(Request $request, $id){

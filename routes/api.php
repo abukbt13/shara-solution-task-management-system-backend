@@ -42,10 +42,13 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('updateUserDetails/{id}',[UsersController::class,'updateUserDetails']);
     Route::get('deleteUser/{id}',[UsersController::class,'destroy']);
     Route::post('users/update-user/{id}',[UsersController::class,'update_user']);
+    $tasksController = TasksController::class;
 
-    Route::get('show-tasks/{id}',[TasksController::class,'show']);
+    Route::get('show-tasks/{id}',[$tasksController,'show']);
     Route::get('users_to_be_added_to_task/{id}',[TasksController::class,'users_to_be_added_to_task']);
     Route::post('create_task/{id}',[TasksController::class,'create_task']);
+    Route::get('delete_user_task/{id}',[TasksController::class,'delete_user_task']);
+    Route::post('create_update/{id}',[TasksController::class,'create_update']);
     Route::post('tasks',[TasksController::class,'store']);
     Route::post('addReview',[ReviewsController::class,'store']);
 
@@ -75,6 +78,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
      Route::get('list_users_not_in_project/{project_id}',[ProjectsController::class,'list_users_not_in_project']);
     Route::post('add_user_to_the_current_project',[ProjectsController::class,'add_user_to_the_current_project']);
     Route::get('fetch_users_to_the_current_project/{id}',[ProjectsController::class,'fetch_users_to_the_current_project']);
+    Route::get('remove_user_in_project/{id}',[ProjectsController::class,'remove_user_in_project']);
 
 
     Route::get('getprojects',[ProjectsController::class,'listProjects']);

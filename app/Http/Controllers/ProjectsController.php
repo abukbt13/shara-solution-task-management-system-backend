@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectUser;
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -110,10 +111,23 @@ class ProjectsController extends Controller
 
         $users = DB::table('users')
             ->join('project_user', 'project_user.user_id', '=', 'users.id')
-            ->select('users.name', 'users.email', 'project_user.project_id')
+            ->select('users.name', 'users.email', 'project_user.project_id', 'project_user.id')
             ->where('project_user.project_id', '=', $project_id)
             ->get();
 
         return response($users);
+    }
+    public function remove_user_in_project($id){
+        $project_user=ProjectUser::find($id);
+        $project_user->delete();
+//        $task=Task::where('project_id',$id)->get();
+//        $task->project_id='';
+//        $task->update();
+        return response(
+            [
+                'message'=>'Project user deleted successfully',
+                'project_user'=>$project_user
+            ]
+        );
     }
 }

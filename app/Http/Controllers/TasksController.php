@@ -145,7 +145,7 @@ class TasksController extends Controller
 
         }
         $admin_id = auth::user()->id;
-        $task = new Task();
+        $task =new Task();
 
         $task->project_id=$id;
         $task->todo=$request->task;
@@ -159,11 +159,56 @@ class TasksController extends Controller
         $task->save();
         return response()->json($task);
     }
+    public function create_update(Request $request,$id){
+        $rules = [
+            'task' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+
+                'status' => 'failed',
+                'message' => 'Validation failed',
+                'data' => $validator->errors(),
+            ], 422);
+
+        }
+        $admin_id = auth::user()->id;
+        $task_id = $request->task_id;
+        $task = Task::where('id','=',$task_id)->first();
+
+        $task->project_id=$id;
+        $task->todo=$request->task;
+        $task->user_id=$request->user_id;
+        $task->task_type=$request->task_type;
+        $task->date=$request->date_line;
+        $task->time=$request->time_line;
+        $task->description=$request->description;
+
+        $task->admin_id=$admin_id;
+        $task->update();
+        return response()->json([
+            'message' => 'edited successfully',
+            'task'=>$task,
+        ]);
+    }
 
 
     public function edit(Request $request,$id){
         $task=Task::where('id',$id)->first();
         return response()->json($task);
+    }
+     public function delete_user_task(Request $request,$id){
+        $task=Task::find($id);
+        $task->delete();
+        return response()->json(
+            [
+                'message' => 'Task deleted successfully',
+                'task' => $task
+            ]
+        );
     }
     public function updateone(Request $request, $id) {
         $task = Task::where('id',$id)->get()->first(); // Find the task with the given ID
